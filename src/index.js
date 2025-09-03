@@ -1,17 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./App.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// ✅ Patch ResizeObserver (helps reduce console spam, though Chrome bug may still show harmless warnings)
+class ResizeObserverPatched extends ResizeObserver {
+  constructor(callback) {
+    super((entries, observer) => {
+      try {
+        callback(entries, observer);
+      } catch (e) {
+        if (
+          e.message.includes("ResizeObserver loop completed with undelivered notifications.") ||
+          e.message.includes("ResizeObserver loop limit exceeded")
+        ) {
+          return; // ignore harmless ResizeObserver errors
+        }
+        throw e;
+      }
+    });
+  }
+}
+window.ResizeObserver = ResizeObserverPatched;
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
