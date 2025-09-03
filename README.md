@@ -23,13 +23,14 @@ This tool lets you create chatbot message flows by dragging nodes, editing text,
 git clone https://github.com/kartiknyamagoudar/chatbot-flow-builder.git
 cd chatbot-flow-builder
 
-2️⃣ Install dependencies
-
+### 2️⃣ Install dependencies
+```bash
 npm install
 
-3️⃣ Start development server
-
+### 3️⃣ Start development server
+```bash
 npm start
+
 App will run at 👉 http://localhost:3000
 
 📦 Build for Production
